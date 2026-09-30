@@ -1,0 +1,873 @@
+{
+  "$schema": "./rules.schema.json",
+  "methodology": "DFC Bridge",
+  "version": "0.5.0",
+  "severityLevels": [
+    "error",
+    "warning",
+    "info"
+  ],
+  "automationLevels": [
+    "automatic",
+    "heuristic",
+    "manual"
+  ],
+  "rules": [
+    {
+      "id": "identity.missing-stable-identity",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Important transferable elements, including decorative and asset roots, must have a stable identity: a stable layer name or an identity-bearing fallback tag value.",
+      "fix": "Use an English kebab-case layer name when Figma metadata provides the type. Boolean `[decor]` and `[asset]` are visual-intent/policy flags and are not enough by themselves to identify a poorly named layer."
+    },
+    {
+      "id": "identity.duplicate-identity",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Two elements inside the same declared audit context—such as one page breakpoint/view or one selected-section variant—must not share one stable design identity.",
+      "fix": "Prefer semantic fixture keys that survive reordering, such as `product-card-sku-blue`; use positional indexes such as `product-card-1` only as a design-fixture fallback. Never treat a positional suffix as a runtime data key."
+    },
+    {
+      "id": "identity.same-identity-different-type",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "The same identity must not resolve to different logical element types across comparable declared responsive contexts, including explicitly selected variants of one section.",
+      "fix": "Keep the Figma node/component type stable across the declared contexts or model a separate entity. Do not invent page or breakpoint tags on a selected section."
+    },
+    {
+      "id": "identity.breakpoint-specific-id",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Optional DFC Bridge identity values must describe logical elements, not responsive breakpoints. A value such as `[control=button-reviews-box-375]` inside a `[bp=375]` root is invalid when the suffix matches the current breakpoint.",
+      "fix": "Remove the breakpoint suffix from the optional id. For ordinary buttons/controls, remove the optional id completely and use `Отзывы мобилка [action=modal:marketplaces-modal]`."
+    },
+    {
+      "id": "identity.repeated-item-no-index",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Authored repeated list or grid occurrences need distinct stable design-instance anchors. `[item=...]` only classifies their shared repeated role or type; it is not an instance identity.",
+      "fix": "Give each occurrence a meaningful stable layer or design-instance key, such as `product-card-oak-chair` and `product-card-wool-lamp`, while both may use `[item=product-card]`. Use numeric fixture suffixes only as a fallback, never as runtime-data identity."
+    },
+    {
+      "id": "identity.multiple-identity-tags",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "One layer must not declare multiple competing identity tags such as `[section=...]` and `[modal=...]`.",
+      "fix": "Keep the one tag that represents the layer's logical identity. Express behavior and visual intent with non-identity tags such as `[href=...]`, `[action=...]`, `[decor]`, or `[asset]`."
+    },
+    {
+      "id": "syntax.decor-asset-value-not-kebab-case",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Boolean `[decor]` and `[asset]` are valid without values. If a fallback value is present in `[decor=...]` or `[asset=...]`, it must be English kebab-case.",
+      "fix": "Prefer a stable layer identity plus boolean flags, for example `sneg [decor] [asset]`. Use value form only for poor/default layer names, for example `Frame 182 [decor=snow-bg]`."
+    },
+    {
+      "id": "syntax.identity-value-not-kebab-case",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Authored identity-like tag values, anchors, and views should use stable English kebab-case so validators and adapters can compare them deterministically.",
+      "fix": "Replace spaces, localized words, uppercase characters, and punctuation with a stable English kebab-case value such as `product-card-1`, `contact-modal`, `faq`, or `not-found`."
+    },
+    {
+      "id": "identity.decor-asset-flags-not-identities",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "`[decor]` and `[asset]` are visual-intent/policy flags and must not be counted as identity tags or as multiple identities when they appear together.",
+      "fix": "Resolve identity from the stable layer name such as `sneg`; keep `[decor]` and `[asset]` as flags. Use `[decor=...]` or `[asset=...]` only as fallback for poor/default layer names."
+    },
+    {
+      "id": "syntax.duplicate-tag",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A layer must not repeat the same DFC Bridge tag key.",
+      "fix": "Keep one canonical value for the key. If two values describe different concerns, model them with the appropriate distinct tags or split the logical entities."
+    },
+    {
+      "id": "syntax.figma-metadata-tag-invalid",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Tags derived from native Figma metadata, including `[text]`, `[image]`, `[icon]`, `[container]`, `[layout]`, `[abs]`, and `[component]`, must not be authored in layer names.",
+      "fix": "Remove the metadata tag and express the property through the native Figma node type, component source, layout mode, positioning, fills, or export settings."
+    },
+    {
+      "id": "section.role-prefix-in-name",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Section layer names should not repeat the role with prefixes such as `Section /` or `Секция /`.",
+      "fix": "Keep the human label concise. Resolve the section from the `Page Sections` source component when possible, or use `[section=...]` only for frame sections, generic components, or explicit overrides."
+    },
+    {
+      "id": "section.identity-as-human-heading",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A section key should describe the reusable section component, not copy the page-specific heading.",
+      "fix": "Use the layer name for the contextual heading. Resolve the stable section key from `Page Sections` or use `[section=...]` only when an explicit fallback/override is needed."
+    },
+    {
+      "id": "section.component-source-unclassified",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A page-level section component instance should come from the `Page Sections` library page, or the layer should declare an explicit `[section=...]` fallback.",
+      "fix": "Move the source component to `Page Sections`, register it as a section component, or add `[section=...]` only when the layer is a frame section, a generic component, or an explicit override."
+    },
+    {
+      "id": "section.redundant-instance-section-tag",
+      "principle": "Identity",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Instances of components from `Page Sections` should not repeat `[section=...]` on the page layer.",
+      "fix": "Remove the redundant page-layer `[section=...]`; resolve section id from the source component or component set name."
+    },
+    {
+      "id": "component.ui-kit-used-as-section",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Components from `UI Kit` are ordinary interface components and should not be inferred as page sections.",
+      "fix": "Use a component from `Page Sections` for a page-level section, or add `[section=...]` only for a deliberate frame section or override."
+    },
+    {
+      "id": "naming.default-layer-name",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Default names such as `Frame 53` or `Group 271` usually hide missing structure or intent.",
+      "fix": "Rename the layer with a stable English kebab-case identity; add DFC Bridge intent tags only where needed."
+    },
+    {
+      "id": "layout.missing-role",
+      "principle": "Roles",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Every layer must be classifiable from Figma metadata or DFC Bridge intent tags.",
+      "fix": "Fix the Figma structure/metadata first; add DFC Bridge tags only for product or transfer intent such as `[section=...]`, `[href=...]`, `[link]`, `[action=...]`, `[control]`, `[field=...]`, `[decor]`, `[asset]`, `[modal=...]`, or `[state=...]`."
+    },
+    {
+      "id": "layout.page-root-missing-auto-layout",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Every DFC Bridge page root must use native Figma Auto Layout, even when it has zero or one child. A page root is a responsive content container, not primitive or leaf geometry, and cannot mark itself `[asset]` to bypass the rule.",
+      "fix": "Enable vertical, horizontal, or grid Auto Layout on the page root and define its padding, gap, alignment, and wrapping in Figma. `[asset]`, `[decor]`, absolute positioning, and an exception tag on the page root do not suppress this blocking finding."
+    },
+    {
+      "id": "layout.page-root-cannot-be-asset",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A DFC Bridge page root must not carry `[asset]`. A page is a live responsive content contract, never one opaque exported visual; root-level `[asset]` does not create an opaque boundary and descendants must still be validated.",
+      "fix": "Remove `[asset]` from the page root, keep native Auto Layout on the root, and apply `[asset]` only to genuine descendant visuals transferred as opaque units. Report the Auto Layout finding separately when the same page root also has layout mode NONE."
+    },
+    {
+      "id": "layout.section-missing-auto-layout",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Every editable non-page FRAME or COMPONENT carrying `[section]` that is encountered in a declared audit tree—either a page tree or a selected-section subtree—must use native Figma Auto Layout, even with zero or one child, unless that exact node is a legitimate opaque whole-visual `[asset]` with no live content flow. For selected-section entry, `[asset]` must be on that exact section root; a section below a different non-page-root opaque asset ancestor is a blocked scope precondition, not an inherited exemption. An invalid page-root `[asset]` never creates opacity. A placed INSTANCE is atomic and excluded from this rule; source-tool checks do not resolve or inspect its source component.",
+      "fix": "Enable Auto Layout on the encountered `[section]` FRAME or COMPONENT. Audit a placed instance's editable source component separately; do not flatten or detach the instance as a workaround. `[decor]` and exception tags do not waive the section layout contract; use `[asset]` only on a genuinely opaque whole-visual section root, and move a live section outside any ancestor asset boundary."
+    },
+    {
+      "id": "layout.container-missing-auto-layout",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "An Auto Layout-capable content container outside an `[asset]` subtree with at least two visible meaningful direct children participating in content flow must use native Figma Auto Layout. Primitive and leaf geometry are exempt.",
+      "fix": "Enable native Auto Layout and express direction, padding, gap, alignment, wrapping, and sizing in Figma. Intended absolute visual children may remain absolute inside that parent, but `[decor]` and exception tags do not turn the parent into a manual-layout container or suppress this finding."
+    },
+    {
+      "id": "layout.group-outside-asset",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A Figma GROUP outside an `[asset]` subtree is invalid because it encodes geometry without a transferable layout contract. `[decor]` alone is not an exemption, and `[bridge-exception=manual-layout] [reason=...]` records a proposed deviation without suppressing this blocking finding.",
+      "fix": "Replace the GROUP with a frame or component using native Auto Layout. If the whole subtree is transferred as one opaque visual, mark its root `[asset]` and add `[decor]` only when it is ornamental. When conversion is genuinely impossible, record manual-layout and a specific reason on that GROUP, then process the still-reported finding through the separate deviation-acceptance gate."
+    },
+    {
+      "id": "layout.positioned-without-intent",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "An absolutely positioned, visually detached, or overlapping element outside an `[asset]` subtree must have clear intent on that exact node. `[decor]` is valid only for the intended absolute visual layer and does not exempt a parent or freeform subtree from Auto Layout and GROUP rules.",
+      "fix": "Keep geometry in native Figma positioning. Mark an intended absolute ornament `[decor]`, a whole opaque visual `[asset]`, or use an appropriate modal/state target. For an intentional overlay that cannot be modeled otherwise, use `[bridge-exception=overlay] [reason=...]`; never put `[decor]` on a container merely to silence layout errors."
+    },
+    {
+      "id": "layout.one-child-wrapper-without-role",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A one-child wrapper without a structural reason is likely unnecessary noise.",
+      "fix": "Remove the wrapper or make its Figma purpose clear through structure, naming, clipping, shared surface, target scope, or asset grouping."
+    },
+    {
+      "id": "layout.wrapper-chain-too-deep",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Deep wrapper chains often make responsive mapping fragile.",
+      "fix": "Flatten structure or ensure each wrapper has a real Figma purpose."
+    },
+    {
+      "id": "layout.overlap-without-overlay-role",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Overlapping bounds require clear overlay, absolute decor, whole-asset, target, or explicit exception intent on the overlapping node.",
+      "fix": "Declare `[decor]` only on the intended absolute visual layer, use `[asset]` for an opaque visual subtree, add the appropriate target tag, or record `[bridge-exception=overlay] [reason=...]`. Positioning still comes from Figma metadata."
+    },
+    {
+      "id": "layout.z-index-ambiguous",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Layer order is visually important but not declared as overlay/stacking intent.",
+      "fix": "Declare overlay scope or stacking behavior."
+    },
+    {
+      "id": "responsive.missing-breakpoint-root",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Responsive root frames must declare `[bp=...]`.",
+      "fix": "Add explicit breakpoint tags to root frames."
+    },
+    {
+      "id": "responsive.view-missing-required-breakpoint",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Every declared page view must have a root for each required breakpoint in that page contract.",
+      "fix": "Add the missing `[page=...] [view=...] [bp=...]` root, or remove the breakpoint/view from the declared page contract when it is not actually required."
+    },
+    {
+      "id": "responsive.identity-missing-in-required-breakpoint",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "An important identity exists in one required comparable responsive context but is missing from another explicitly declared context for the same page/view or selected section.",
+      "fix": "Keep the same identity in the same parent and change responsive visibility instead of deleting it, or model a separate state, variant, collection rule, or structural exception. An unrequested section variant is not a missing context."
+    },
+    {
+      "id": "responsive.tree-cardinality-changed",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Comparable responsive roots for the same page/view or explicitly selected section variants do not preserve the same logical element tree/cardinality.",
+      "fix": "Keep the same transferable identities across the declared responsive contexts, or model the difference as a collection rule, state, variant, or structural exception."
+    },
+    {
+      "id": "responsive.parent-changed-across-breakpoints",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A transferable identity changes parent identity across comparable declared responsive contexts, including explicitly selected variants of one section.",
+      "fix": "Preserve parent-child topology across the declared contexts, use shared wrappers, or declare an explicit structural exception."
+    },
+    {
+      "id": "responsive.order-changed-without-reason",
+      "principle": "Breakpoints",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Sibling order changed across breakpoints without an order strategy.",
+      "fix": "Preserve semantic order or declare an order strategy."
+    },
+    {
+      "id": "responsive.visual-intent-drift",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "The same identity has different visual-intent/policy tags across comparable declared responsive contexts, for example `sneg [decor] [asset]` in one selected variant and plain `sneg` in another.",
+      "fix": "Keep visual-intent flags stable across the declared contexts, or model the difference as an explicit state, variant, target-specific rule, or DFC Bridge exception."
+    },
+    {
+      "id": "content.text-changed-between-breakpoints",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "The same product text identity has different content across comparable declared responsive contexts, including explicitly selected variants of one section. Text inside decorative or root asset visuals is excluded from product-content drift checks.",
+      "fix": "Keep responsive product text identical. Model locale, experiment, or product variants outside responsive variants. For decorative or root asset visuals, preserve the root identity and visual-intent tags instead of comparing inner text as product content."
+    },
+    {
+      "id": "content.decorative-asset-text-excluded-from-product-drift",
+      "principle": "Dependencies",
+      "severity": "info",
+      "automation": "automatic",
+      "description": "Text inside `[decor]` layers or root `[asset]` visuals is not product content and should not be reported as product-content drift.",
+      "fix": "Skip inner text product-drift comparison for decorative/root asset visuals, but still validate root identity coverage and visual-intent stability across breakpoints."
+    },
+    {
+      "id": "content.manual-line-break-in-dynamic-text",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Dynamic text must not rely on forced line breaks or <br> to fit the layout.",
+      "fix": "Let text wrap by its container using hug/min-height, max-width, and explicit overflow/truncation rules. Use `[bridge-exception=manual-line-break] [reason=...]` only for semantic or approved brand-lockup breaks."
+    },
+    {
+      "id": "content.manual-line-break-exception-without-reason",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A manual line break exception must explain why the break is semantic or brand-required.",
+      "fix": "Pair `[bridge-exception=manual-line-break]` with `[reason=...]`, for example `[reason=brand-lockup]` or `[reason=postal-address-format]`."
+    },
+    {
+      "id": "content.strict-content-drift",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Strict content such as price, legal copy, or CTA changed across breakpoints.",
+      "fix": "Synchronize strict content or document an approved variant."
+    },
+    {
+      "id": "content.hidden-layer-source-of-truth",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Hidden keyed layers may contain alternative source-of-truth content.",
+      "fix": "Move alternatives into declared states/variants or archive them."
+    },
+    {
+      "id": "interaction.clickable-without-action",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "A visually clickable element has no known interaction marker: no `[href=...]`, `[action=...]`, `[link]`, or `[control]`.",
+      "fix": "Add `[href=...]` for known navigation, `[action=...]` for known non-navigation behavior, `[link]` for an unknown draft destination, or `[control]` for an unknown draft action."
+    },
+    {
+      "id": "interaction.control-without-action",
+      "principle": "Dependencies",
+      "severity": "info",
+      "automation": "automatic",
+      "description": "Boolean `[control]` or advanced `[control=...]` without `[action=...]` is a valid draft marker for an unknown action, not a syntax error. Final handoff should resolve it.",
+      "fix": "If the action is known, replace the draft marker with `[action=modal:...]`, `[action=state:...]`, `[action=submit:...]`, `[action=reset:...]`, or `[action=none]`. Keep `[control=...]` only as an optional advanced id when a stable machine id is needed."
+    },
+    {
+      "id": "interaction.link-without-href",
+      "principle": "Dependencies",
+      "severity": "info",
+      "automation": "automatic",
+      "description": "Boolean `[link]` or advanced `[link=...]` without `[href=...]` is a valid draft marker for an unknown destination, not a syntax error. Final handoff should resolve it.",
+      "fix": "If the destination is known, use `[href=...]`. Keep `[link=...]` only as an optional advanced id when a stable machine id is needed. Do not use `[href=#]` as a placeholder."
+    },
+    {
+      "id": "interaction.link-has-second-destination",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Links must not declare a second destination such as `[to=...]` or `[action=link:...]` alongside `[href=...]`.",
+      "fix": "Keep only `[href=...]` for navigation destination. `[href=...]` is already enough to classify the layer as a link."
+    },
+    {
+      "id": "interaction.href-placeholder-invalid",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "`[href=#]` is not a valid unknown href placeholder. `#faq` is a real same-page anchor; `#` alone does not declare a destination.",
+      "fix": "Use `[link]` while the destination is unknown, or replace `#` with a real href such as `[href=#faq]` or `[href=/contacts]`."
+    },
+    {
+      "id": "interaction.optional-id-value-invalid",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Advanced optional ids in `[link=...]` and `[control=...]` must be English kebab-case and must not include breakpoint names or width suffixes when a value is present.",
+      "fix": "Prefer no optional id for ordinary links/buttons: use `[href=...]`, `[link]`, `[action=...]`, or `[control]`. If an id is required, use a breakpoint-neutral kebab-case value."
+    },
+    {
+      "id": "interaction.href-invalid",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "An `[href=...]` value must be a supported real destination: an internal path, same-page anchor, `http`/`https` URL, `mailto:` URL, or `tel:` URL.",
+      "fix": "Correct the destination syntax. If the destination is not known yet, remove `[href=...]` and use the boolean draft marker `[link]`."
+    },
+    {
+      "id": "interaction.action-invalid",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "An `[action=...]` value must use a supported action grammar: `modal:target-id`, `state:target-id`, `submit:form-id`, `reset:target-id`, or `none`.",
+      "fix": "Correct the action value and use a breakpoint-neutral kebab-case target id. If the action is not known yet, remove `[action=...]` and use the boolean draft marker `[control]`."
+    },
+    {
+      "id": "interaction.control-action-duplicate",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "One control must not declare more than one `[action=...]` value.",
+      "fix": "Keep one canonical action. Model alternative behavior as an explicit state, variant, or separate control."
+    },
+    {
+      "id": "interaction.modal-target-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A modal action must point to an existing modal target.",
+      "fix": "Create `[modal=target-id]` target or change the action."
+    },
+    {
+      "id": "interaction.state-target-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A state action must point to an existing state target.",
+      "fix": "Create `[state=target-id]` target or change the action."
+    },
+    {
+      "id": "interaction.form-target-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "A submit action must point to an existing form target in the same page contract.",
+      "fix": "Create `[form=target-id]` or change `[action=submit:...]` to the correct form id."
+    },
+    {
+      "id": "interaction.reset-target-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "A reset action should point to an existing state, form, or other declared reset target in the same page contract.",
+      "fix": "Create the declared target or change `[action=reset:...]` to the identity that owns the resettable state."
+    },
+    {
+      "id": "interaction.modal-missing-close",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Modal targets need close behavior.",
+      "fix": "Add close button/action and define backdrop/escape behavior."
+    },
+    {
+      "id": "interaction.form-field-missing-label",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Form fields need labels or accessible names.",
+      "fix": "Add label text and field identity."
+    },
+    {
+      "id": "interaction.form-missing-submit-action",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Forms need a submit action or declared endpoint/handler.",
+      "fix": "Add `[action=submit:...]` to the submit control or form."
+    },
+    {
+      "id": "state.required-state-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Interactive or dynamic components often need empty, loading, error, disabled, hover, or focus states.",
+      "fix": "Add required states or declare why they are not needed."
+    },
+    {
+      "id": "height.fixed-height-without-reason",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Fixed height must be intentional.",
+      "fix": "Use hug/min-height or add `[height=fixed] [reason=...]`."
+    },
+    {
+      "id": "overflow.hidden-without-policy",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Clipped surfaces need explicit overflow policy.",
+      "fix": "Add `[overflow=hidden]`, `[overflow=visible]`, `[overflow=scroll]`, or `[overflow=truncate]`."
+    },
+    {
+      "id": "overflow.text-clipping-risk",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Text appears likely to clip due to fixed height or insufficient bounds.",
+      "fix": "Use hug height, min-height, or truncation policy."
+    },
+    {
+      "id": "asset.raster-text-without-reason",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Text-like content should not be exported as a raster asset without reason.",
+      "fix": "Use native text or add asset exception reason."
+    },
+    {
+      "id": "asset.image-missing-focal-point",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "Responsive images need a crop/focal strategy.",
+      "fix": "Declare focal point, fit mode, or crop policy."
+    },
+    {
+      "id": "asset.media-missing-fallback",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "Video/Lottie/complex media should define fallback behavior.",
+      "fix": "Add poster, fallback asset, controls, and autoplay policy."
+    },
+    {
+      "id": "design-system.token-missing",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Color, typography, radius, or spacing values appear detached from tokens.",
+      "fix": "Use design tokens or declare an exception."
+    },
+    {
+      "id": "accessibility.touch-target-too-small",
+      "principle": "Geometry",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Interactive target is smaller than recommended touch size.",
+      "fix": "Increase hit area or declare target-specific exception."
+    },
+    {
+      "id": "accessibility.contrast-risk",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Text/background contrast may be insufficient.",
+      "fix": "Adjust colors or document intentional exception."
+    },
+    {
+      "id": "accessibility.decorative-layer-exposed",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "A `[decor]` layer should not be exposed as product content in the accessibility tree.",
+      "fix": "Treat the transferred decorative layer as `aria-hidden` or otherwise exclude it from accessibility/content semantics."
+    },
+    {
+      "id": "component.page-instance-declares-component-tag",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "Page instances should not duplicate Figma component source with `[component=...]` tags.",
+      "fix": "Remove `[component=...]` from page instance names and rely on Figma/UI Kit metadata."
+    },
+    {
+      "id": "component.required-state-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "UI Kit component source is missing required states for its component family.",
+      "fix": "Add states to the UI Kit component set instead of drawing them on a page."
+    },
+    {
+      "id": "routing.page-route-missing",
+      "principle": "Dependencies",
+      "severity": "info",
+      "automation": "automatic",
+      "description": "A page root without `[route=...]` or `[route-pattern=...]` is a Draft TODO when the production route is not known yet, not a hard error.",
+      "fix": "Do not invent fake routes. Add `[route=/path]` or `[route-pattern=/path/:param]` only when the real production route is known."
+    },
+    {
+      "id": "routing.page-root-required",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Page preflight requires at least one root frame with a stable `[page=...]` identity. A root may be a direct child of the Figma page or reached only through native Figma SECTION canvas organizers.",
+      "fix": "Add `[page=page-id]` to every responsive root frame that belongs to the page. Keep each root directly on the Figma page or under native Figma SECTION organizers; do not wrap it in an ordinary FRAME/GROUP, then run preflight for that page identity."
+    },
+    {
+      "id": "routing.default-view-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "Every page identity should declare a `view=default` root for its normal product state.",
+      "fix": "Add `[view=default]` to the normal page roots, or create the default view before modeling empty, loading, error, or permission-specific views."
+    },
+    {
+      "id": "routing.route-not-production-url",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "When `[route=...]` or `[route-pattern=...]` is present, it must be a real production URL/path or route template, not a fake placeholder.",
+      "fix": "Remove the route while unknown, or replace it with the real production route such as `[route=/contacts]` or `[route-pattern=/catalog/:slug]`."
+    },
+    {
+      "id": "routing.duplicate-route",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Two concrete pages must not declare the same route unless intentionally modeled as views of one page.",
+      "fix": "Use one `[page=...]` with multiple `[view=...]` states, or change the duplicate route."
+    },
+    {
+      "id": "routing.href-internal-route-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Internal href points to a route that is not declared in the known route contract.",
+      "fix": "Add a page with the matching real `[route=...]` when known, correct the href, or leave route resolution as a draft TODO if page routes are not known yet."
+    },
+    {
+      "id": "routing.href-anchor-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Internal href points to an anchor that is not declared on the target page.",
+      "fix": "Add `[anchor=...]` to the target section or correct the href fragment."
+    },
+    {
+      "id": "routing.page-view-route-drift",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "automatic",
+      "description": "Views or breakpoints of one page identity must not use different known production routes.",
+      "fix": "Keep one known `[route=...]` across all `[view=...]` and `[bp=...]` variants of the page. If the route is unknown, omit it consistently until it is known."
+    },
+    {
+      "id": "variation.breakpoint-content-drift",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Product content changed across breakpoints without a non-responsive variation axis. Decorative and root asset text is not product content drift.",
+      "fix": "Keep breakpoint product content identical, or model the change with `[view=...]`, `[locale=...]`, `[experiment=...]`, or another explicit axis. Preserve decorative/asset root identities and tags across breakpoints."
+    },
+    {
+      "id": "variation.theme-content-drift",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Theme variants must not change text content.",
+      "fix": "Keep content identical across themes; theme should change visual tokens only."
+    },
+    {
+      "id": "variation.axis-overload",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "heuristic",
+      "description": "One variation axis appears to hide a different reason for variation.",
+      "fix": "Use the correct axis: breakpoint for layout, view for data state, locale for translation, experiment for A/B, role-view for permissions."
+    },
+    {
+      "id": "adapter.unsupported-feature",
+      "principle": "Exceptions",
+      "severity": "warning",
+      "automation": "automatic",
+      "description": "The selected target adapter does not support a declared feature.",
+      "fix": "Change the design, add asset fallback, or choose another adapter."
+    },
+    {
+      "id": "data.source-contract-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A runtime data display must declare its source or owner, refresh behavior, and the policy for stale or unavailable data.",
+      "fix": "Add the source dataset or service owner, refresh cadence, freshness threshold, and fallback behavior to the structured data contract."
+    },
+    {
+      "id": "data.schema-contract-incomplete",
+      "principle": "Identity",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A data display must declare stable field, dimension, measure, row, and relationship semantics instead of relying on sample values.",
+      "fix": "Document stable keys, value types, nullability, identifiers, relationships, cardinality, and aggregation semantics in the structured data contract."
+    },
+    {
+      "id": "data.format-contract-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "Data values with locale, time, currency, unit, precision, rounding, or missing-value semantics need an explicit format contract.",
+      "fix": "Declare locale and time-zone behavior, currency or unit, notation, precision, rounding, and distinct missing or suppressed value markers."
+    },
+    {
+      "id": "data.required-state-contract-missing",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "A runtime data display must define all applicable loading, empty, error, partial, stale, offline, and unauthorized states and recovery behavior.",
+      "fix": "Add every applicable data state, its message and retained content, recovery action, announcement behavior, and transition back to usable data."
+    },
+    {
+      "id": "data.accessible-equivalent-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A chart, map, canvas, or other complex visual data display must provide an accessible equivalent that exposes the same values and conclusion.",
+      "fix": "Reference a semantic table, list, description, or downloadable dataset and preserve names, relationships, keyboard operation, and the principal finding."
+    },
+    {
+      "id": "responsive.transformation-mapping-incomplete",
+      "principle": "Breakpoints",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A declared responsive structural transformation must map every source identity and meaning to its target composition without silent content or action loss.",
+      "fix": "Record source identities, target composition, activation range, field and action mapping, semantic and focus order, state preservation, and accessible parity."
+    },
+    {
+      "id": "interaction.reaction-guard-ambiguous",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A conditional reaction must define mutually understandable guards, priority, and fallback so the same event cannot resolve ambiguously.",
+      "fix": "Declare each guard from observable state or data, define precedence for overlapping conditions, and add an explicit default or impossible-case rule."
+    },
+    {
+      "id": "interaction.reaction-effect-incomplete",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A reaction must declare every product effect, target, state mutation, navigation, announcement, persistence, and rollback consequence.",
+      "fix": "Complete the ordered effect list and name stable targets, resulting state, user feedback, persisted values, and rollback or compensating behavior."
+    },
+    {
+      "id": "accessibility.reaction-focus-effect-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A reaction that opens, closes, removes, inserts, navigates, or reports content must declare its focus and announcement effects.",
+      "fix": "Specify initial and restored focus, focus order after mutation, live announcement behavior, and how keyboard users reach the resulting content."
+    },
+    {
+      "id": "interaction.async-outcome-missing",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "manual",
+      "description": "An asynchronous reaction must define pending, success, empty, failure, retry, cancellation, timeout, duplicate input, and stale-response behavior where applicable.",
+      "fix": "Model the asynchronous states and transitions, disabled or optimistic controls, retry and cancellation rules, timeout handling, and stale-response suppression."
+    },
+    {
+      "id": "motion.driver-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A motion sequence must identify the time, event, scroll, view, media, data, or system driver that deterministically controls it.",
+      "fix": "Declare the driver type and source, start condition, progress mapping or trigger, repeat policy, and the state reached when the driver ends."
+    },
+    {
+      "id": "motion.range-or-timing-missing",
+      "principle": "Geometry",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A motion track must define its input range or timing, affected properties, values and units, sequencing, easing, and interruption behavior.",
+      "fix": "Record start and end values, units, duration or driver range, delays, easing, iterations, dependencies, coordinate space, cancel, reverse, and re-entry behavior."
+    },
+    {
+      "id": "motion.reduced-motion-strategy-missing",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "manual",
+      "description": "Every nontrivial motion sequence must define a reduced-motion strategy that preserves content, actions, state, focus, and task completion.",
+      "fix": "Declare which movement is removed or replaced and specify the stable reduced-motion composition, timing, controls, completion state, and focus behavior."
+    },
+    {
+      "id": "motion.fallback-missing",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "manual",
+      "description": "Essential content and actions in motion or long-scroll experiences must remain available without the preferred script, API, sticky, or animation mechanism.",
+      "fix": "Provide a normal-flow or static fallback, preserve document and action order, and define initialization for unsupported APIs, deep links, resize, and script failure."
+    },
+    {
+      "id": "motion.essential-content-animation-dependent",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "heuristic",
+      "description": "Essential content, actions, or required product state must not exist only during animation or depend on animation completion events.",
+      "fix": "Represent meaningful still states in the document, keep required controls reachable, and complete product state independently of animation events or playback."
+    },
+    {
+      "id": "accessibility.page-profile-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "Each page or major view must declare its accessibility profile, including language, landmarks, heading outline, reading order, focus flow, and announcement regions.",
+      "fix": "Add the page accessibility profile and review landmarks, one meaningful heading hierarchy, DOM and reading order, skip paths, focus entry, and live regions."
+    },
+    {
+      "id": "accessibility.component-profile-missing",
+      "principle": "Roles",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "A reusable interactive component must declare semantic role, accessible name and description sources, keyboard model, focus behavior, states, and errors.",
+      "fix": "Add a component accessibility profile covering native semantics, name computation, keyboard commands, focus visibility and movement, disabled/loading states, and errors."
+    },
+    {
+      "id": "delivery.required-evidence-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A delivery gate must include traceable evidence for every required contract, review, automated check, supported target, and acceptance decision.",
+      "fix": "Attach versioned artifacts, check outputs, review owners and dates, target results, unresolved risks, and the final acceptance record to the delivery manifest."
+    },
+    {
+      "id": "delivery.deviation-undeclared",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "manual",
+      "description": "Any accepted deviation from the DFC Bridge contract must be declared with scope, reason, risk, owner, expiry or review date, mitigation, and evidence.",
+      "fix": "Create a delivery deviation record, link affected identities and targets, assign an accountable owner, set review or expiry, and document mitigation and approval."
+    },
+    {
+      "id": "capability.essential-experience-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "Each delivery target profile must identify the content, actions, data, media, and task outcomes that remain essential under constrained conditions.",
+      "fix": "List the essential DFC Bridge identities and outcomes for the target, including low bandwidth, offline, data-saver, and low-power conditions where applicable."
+    },
+    {
+      "id": "capability.unsupported-feature-fallback-missing",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A required capability that is unsupported by a target must have an explicit fallback and accountable owner without removing essential experience.",
+      "fix": "Record the unsupported capability, map a semantically equivalent fallback, assign an owner, and verify that essential content, actions, state, and accessibility remain available."
+    },
+    {
+      "id": "capability.asset-delivery-policy-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "Media and large visual assets must declare target-aware dimensions, formats, art direction, loading priority, poster or fallback, and quality policy where applicable.",
+      "fix": "Add an asset delivery profile per relevant target and condition; reference the stable element and define dimensions, formats, quality, crop or art direction, priority, and fallback."
+    },
+    {
+      "id": "capability.data-scale-strategy-missing",
+      "principle": "Dependencies",
+      "severity": "warning",
+      "automation": "manual",
+      "description": "A potentially large data surface must declare expected and maximum scale plus pagination, windowing, virtualization, aggregation, or degradation strategy.",
+      "fix": "Record expected and maximum item counts, choose a deterministic scale strategy, preserve accessibility and selection semantics, and include representative scale evidence."
+    },
+    {
+      "id": "delivery.performance-budget-evidence-missing",
+      "principle": "Dependencies",
+      "severity": "error",
+      "automation": "manual",
+      "description": "A declared performance budget must name the metric, numeric limit, accountable owner, measurement context, and delivery evidence from the target implementation.",
+      "fix": "Add each metric and limit with units, owner, device or runtime and percentile context, then link reproducible measurement evidence to the delivery lifecycle."
+    },
+    {
+      "id": "contract.open-question-untracked",
+      "principle": "Exceptions",
+      "severity": "error",
+      "automation": "manual",
+      "description": "Every unresolved unknown that can affect implementation must be tracked as a scoped open question with owner, blocking status, review timing, and fallback.",
+      "fix": "Move TODO, TBD, unknown, and unsupported decisions into `bridge.openQuestions`; reference the affected scope, assign an owner, set due or review timing, and define a fallback when blocking."
+    }
+  ]
+}
