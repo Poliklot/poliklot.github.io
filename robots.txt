@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://poliklot.github.io/dfc-bridge/sitemap-index.xml
