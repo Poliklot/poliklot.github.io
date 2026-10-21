@@ -1,6 +1,6 @@
 {
   "canonical": "https://poliklot.github.io/dfc-bridge/",
-  "version": "0.11.6",
+  "version": "0.12.0",
   "hashes": {
     "404.html": "4e2dd0780fe5bc859cfe297447edbf6d9b6b81388b3e8042ca655c5f47bed836",
     "en/check/designer-checklist/index.html": "007823eb0684e9fb15e8c4bcb146db8a81d7f3f35a767107dd3167f9e5e128d9",
@@ -33,7 +33,9 @@
     "en/reference/variation-axes/index.html": "f7f2a6067b7280073921d313a0dd72824b83c423dd117aa2df42ad778bb58a64",
     "en/rules/index.html": "0f637110cf5b75a0000dc589a59735ad254e5dfaae950db1720024a85fe86ef9",
     "en/start/designer-quick-start/index.html": "416f21897e2143adc60315b13e8fc0b8ce11346702b5a9137d849e78a3942d1a",
+    "en/start/visual-walkthrough/index.html": "7f85eac8e9f3b50804eee110dcc098c9286805e2b5d77512a423054260a10797",
     "en/tags/index.html": "944f80a07dfd5371cdcb3a3c5813ab81a950cdacea4a2562645d88ed3bd62faa",
+    "googlefeb03bdf6e3c0464.html": "f44fbf3d6ab548ad685c7d1d7f8e0c8ed17080e47f97bce92d45d1556563f1df",
     "index.html": "1e3ede74066fbdb17ac47636b256207c54df6d92091a18d1e89be1832776565a",
     "ru/check/designer-checklist/index.html": "41d353e7e4cd706be7e32fd5889a7fe702d4e5f8e0bb85733aa8d9e39438438f",
     "ru/check/full-review/index.html": "cbdffeb41fa726be6cbed6bd857196cbd32b2212dd79dc87a611312dfabcf551",
@@ -65,6 +67,7 @@
     "ru/reference/variation-axes/index.html": "f8f9ce4bf134ddafec295275321af1b844f11221be5fa6bee1254c375c7db09d",
     "ru/rules/index.html": "ea77b176f347a19fb2d29e2ebf2d5852d75d229ea7fbd7cf32aa374f291b3869",
     "ru/start/designer-quick-start/index.html": "37010722573c13a513bb983089af445fc72d93999d1fd16898c0a521128ab630",
+    "ru/start/visual-walkthrough/index.html": "515d68127387096df7be1bfb9bfb759da9cbfb1c642ad2df009871c14909c9e4",
     "ru/tags/index.html": "e6a1cb0c26c521fb619a1fafff50b5800cb543166cba896034699a9f2a886836",
     "zh/check/designer-checklist/index.html": "e45ee53eb3b5d9de7dd99a7eab324ee63c71b8c19e6921172a9b849afaef0859",
     "zh/check/full-review/index.html": "bca5339c62627fdbcb2d7d1b44135d42e8a61997a17939cfed1aa53a943ce31c",
@@ -96,16 +99,17 @@
     "zh/reference/variation-axes/index.html": "3ab6ed12b523dcecd876a354ae58f529b5d3f35f06b6b79b9770c35c2747bb1b",
     "zh/rules/index.html": "50966bc95fc0eda0a8ed007b7ccc4ec79c94ffa37d0098b59ae8b923501f591c",
     "zh/start/designer-quick-start/index.html": "f6f8a29e727290c6942583113b573e1cd5c284cf6f544b4fb69ffb24175b9d01",
+    "zh/start/visual-walkthrough/index.html": "9add46824ebae0331e5992177ac36a1f60bb727f31bcb2b04a6827fd9f0194d5",
     "zh/tags/index.html": "a18c75a0c39f7acd46305d92264476d1ec569407636e963e29ad485645f36cbe",
     "schema/bridge.schema.json": "6514e2e48bc75e64ce2306bcf6c22a933b5f3bbd7bb1a19ec1e0beaad1ef2162",
+    "schema/handoff.schema.json": "d80286753926c40c22f22ac0f072b63d70a9a4aa7c78af94c6bee2479b5c6b0c",
     "schema/methodology-coverage.schema.json": "91d7bc9450ed24b831937c4f033ea3cc3b5550a27770ed8e8b9087c943e48e31",
-    "schema/page-check-coverage.schema.json": "2a25f9866d2c25970597a64477a03e7e670dccaefc0f9331ec2600ca0e2e4448",
+    "schema/page-check-coverage.schema.json": "4658aced700953b8d530ed7f0cd43d643e449dd437cbacf616d313bd7401eb72",
     "schema/rules.ru.schema.json": "59af667d58d3dea3f3f812042ee3a64b68a45f313361ee3274e76904e0e99a33",
     "schema/rules.schema.json": "b88192e08fe9eb49419a0fb988ca1e15218cdcfbaf5b5d8ef95ced307936e20f",
-    "schema/section-check-coverage.schema.json": "6a0fc66be3095c789eb2da1323fc8642a901a7faba989d6af5130cbc78ef53e9",
+    "schema/section-check-coverage.schema.json": "4bea41763743a3e9eda6b405e7b25af9ace28e47bb5310221c9c66c7015810c3",
     "schema/site-content.schema.json": "4b5ee0d0f170d1bfbf9d3a21740df39190b3fb6614fc9d888c55e1f5621ca937",
     "schema/tag-examples.schema.json": "ca3e7caadca619b56a34f6cdf463061f7aa1547afaa4d68ca005fd0abe71d5b5",
     "schema/tags.schema.json": "f266beb9e7277f1d4c4ae90a236f1e7a412d2564ae88f65885f925a12e1e5fdd"
-  },
-  "sourceCommit": "5780ba0729f2a2aaee6383d5ce9e2ea1a2b80796"
+  }
 }
