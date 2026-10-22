@@ -1,6 +1,6 @@
 {
   "canonical": "https://poliklot.github.io/dfc-bridge/",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "hashes": {
     "404.html": "4e2dd0780fe5bc859cfe297447edbf6d9b6b81388b3e8042ca655c5f47bed836",
     "en/check/designer-checklist/index.html": "007823eb0684e9fb15e8c4bcb146db8a81d7f3f35a767107dd3167f9e5e128d9",
@@ -112,6 +112,6 @@
     "schema/site-content.schema.json": "4b5ee0d0f170d1bfbf9d3a21740df39190b3fb6614fc9d888c55e1f5621ca937",
     "schema/tag-examples.schema.json": "ca3e7caadca619b56a34f6cdf463061f7aa1547afaa4d68ca005fd0abe71d5b5",
     "schema/tags.schema.json": "f266beb9e7277f1d4c4ae90a236f1e7a412d2564ae88f65885f925a12e1e5fdd",
-    "schema/visual-assets.schema.json": "b3d5564ac92e246289ae7abd73e1b15a70d679e6b7a75be607f8af47bd93a5b6"
+    "schema/visual-assets.schema.json": "6c624cace53ef67df87c74a13f06ac1e875f8d6cf3cd734d33f85efe5c80234e"
   }
 }
