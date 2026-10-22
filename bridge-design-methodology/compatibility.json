@@ -1,6 +1,6 @@
 {
   "canonical": "https://poliklot.github.io/dfc-bridge/",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "hashes": {
     "404.html": "4e2dd0780fe5bc859cfe297447edbf6d9b6b81388b3e8042ca655c5f47bed836",
     "en/check/designer-checklist/index.html": "007823eb0684e9fb15e8c4bcb146db8a81d7f3f35a767107dd3167f9e5e128d9",
@@ -103,7 +103,7 @@
     "zh/tags/index.html": "a18c75a0c39f7acd46305d92264476d1ec569407636e963e29ad485645f36cbe",
     "schema/bridge.schema.json": "6514e2e48bc75e64ce2306bcf6c22a933b5f3bbd7bb1a19ec1e0beaad1ef2162",
     "schema/content-bindings.schema.json": "e6b3e2999afc51bf1099cd24e1c09a98fc1be478f5ed1ef8cbaeaa6a8fa74da0",
-    "schema/handoff.schema.json": "eec633304779a9102e084270afdc5727ada60777422df1b3b003bcee98bb59f8",
+    "schema/handoff.schema.json": "3c4d24ab5e37fbd929d065995929ab91650e0b4ee1ca710314a3267a31200ac9",
     "schema/methodology-coverage.schema.json": "91d7bc9450ed24b831937c4f033ea3cc3b5550a27770ed8e8b9087c943e48e31",
     "schema/page-check-coverage.schema.json": "4658aced700953b8d530ed7f0cd43d643e449dd437cbacf616d313bd7401eb72",
     "schema/rules.ru.schema.json": "59af667d58d3dea3f3f812042ee3a64b68a45f313361ee3274e76904e0e99a33",
